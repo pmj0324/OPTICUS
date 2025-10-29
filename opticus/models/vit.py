@@ -1,0 +1,111 @@
+"""
+Vision Transformer (ViT) model for scattering length prediction
+"""
+
+import torch
+import torch.nn as nn
+
+
+class ViT50_3block(nn.Module):
+    """
+    Vision Transformer with 50x50 patch size and 3 transformer blocks
+    
+    Args:
+        img_size (int): Input image resolution (default: 500x500)
+        patch_size (int): Each patch size (default: 50x50)
+        embed_dim (int): Patch embedding dimension (default: 256)
+        depth (int): Number of Transformer Encoder layers (default: 3)
+        num_heads (int): Number of multi-head attention heads (default: 8)
+        mlp_dim (int): Hidden dimension of MLP within Transformer (default: 512)
+        num_classes (int): Output nodes (1 for regression)
+    """
+    
+    def __init__(
+        self,
+        img_size=500,
+        patch_size=50,
+        embed_dim=256,
+        depth=3,
+        num_heads=8,
+        mlp_dim=512,
+        num_classes=1
+    ):
+        super().__init__()
+        assert img_size % patch_size == 0, "Image size must be divisible by patch size."
+        num_patches = (img_size // patch_size) ** 2  # (500/50)² = 10×10 = 100
+
+        # Patch Embedding: Conv2d(1→embed_dim, kernel=patch_size, stride=patch_size)
+        self.patch_embed = nn.Conv2d(
+            in_channels=1,
+            out_channels=embed_dim,
+            kernel_size=patch_size,
+            stride=patch_size
+        )
+
+        # Learnable class token parameter
+        self.cls_token = nn.Parameter(torch.zeros(1, 1, embed_dim))
+
+        # Positional Embedding: (1, num_patches+1, embed_dim)
+        self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + 1, embed_dim))
+
+        # Transformer Encoder: 3 layers
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=embed_dim,
+            nhead=num_heads,
+            dim_feedforward=mlp_dim,
+            dropout=0.0,
+            activation='gelu',
+            batch_first=False  # Expects input as (seq_len, batch, embed_dim)
+        )
+        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=depth)
+
+        # Regression Head: Transformer CLS output → Linear
+        self.head = nn.Linear(embed_dim, num_classes)
+
+        # Parameter initialization
+        self._init_weights()
+
+    def _init_weights(self):
+        """Initialize model weights"""
+        nn.init.trunc_normal_(self.pos_embed, std=0.02)
+        nn.init.trunc_normal_(self.cls_token, std=0.02)
+        nn.init.trunc_normal_(self.head.weight, std=0.02)
+        if self.head.bias is not None:
+            nn.init.zeros_(self.head.bias)
+
+    def forward(self, x):
+        """
+        Forward pass
+        
+        Args:
+            x: Input tensor of shape (B, 1, img_size, img_size)
+            
+        Returns:
+            Output tensor of shape (B,) for regression
+        """
+        B = x.size(0)
+
+        # (1) Patch Embedding: (B, 1, 500, 500) → (B, embed_dim, 10, 10)
+        x = self.patch_embed(x)
+
+        # (2) Flatten & Transpose: (B, embed_dim, 10, 10) → (B, 100, embed_dim)
+        x = x.flatten(2).transpose(1, 2)
+
+        # (3) Add CLS token: (B, 1, embed_dim) + (B, 100, embed_dim) → (B, 101, embed_dim)
+        cls_tokens = self.cls_token.expand(B, -1, -1)
+        x = torch.cat((cls_tokens, x), dim=1)
+
+        # (4) Add positional embedding
+        x = x + self.pos_embed
+
+        # (5) Transformer encoder: (101, B, embed_dim)
+        x = x.transpose(0, 1)
+        x = self.transformer(x)
+
+        # (6) Use only the CLS token output: x[0] → (B, embed_dim)
+        cls_out = x[0]
+
+        # (7) Regression Head: (B, embed_dim) → (B, 1) → (B,)
+        out = self.head(cls_out).squeeze(-1)
+        return out
+

@@ -1,0 +1,63 @@
+# Default configuration for ResNet4 (CNN) model
+
+# Experiment settings
+experiment:
+  name: "resnet_hole_ice"
+  task: "hole_ice"  # or "bulk_ice"
+  seed: 42
+
+# Data settings
+data:
+  hdf5_path: "/path/to/your/data.h5"
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+  
+  # Split ratios
+  train_split: 0.6
+  val_split: 0.2
+  test_split: 0.2
+
+# Model settings
+model:
+  type: "ResNet4"
+  num_blocks: [1, 1, 1, 1]
+  num_classes: 1
+
+# Training settings
+training:
+  num_epochs: 100
+  patience: 10  # Early stopping patience
+  
+  # Optimizer
+  optimizer:
+    type: "Adam"
+    lr: 0.0001
+  
+  # Scheduler
+  scheduler:
+    type: "CosineAnnealingLR"
+    T_max: 2
+    eta_min: 0.00001
+  
+  # Loss function
+  criterion: "MSELoss"
+
+# Checkpoint settings
+checkpoint:
+  save_dir: "./checkpoints"
+  save_best: true
+  resume_from: null  # Path to checkpoint to resume from
+
+# Logging settings
+logging:
+  log_dir: "./logs"
+  tensorboard: false
+  print_freq: 1  # Print every N epochs
+
+# Analysis settings
+analysis:
+  save_plots: true
+  plot_dir: "./plots"
+  unit: "cm"  # Display unit: "m" or "cm"
+

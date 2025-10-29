@@ -1,0 +1,71 @@
+# Configuration for bulk ice scattering length prediction
+
+# Experiment settings
+experiment:
+  name: "vit_bulk_ice"
+  task: "bulk_ice"
+  seed: 42
+
+# Data settings
+data:
+  hdf5_path: "/path/to/bulk_ice_data.h5"
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+  
+  # Split ratios (70/10/20 for bulk ice)
+  train_split: 0.7
+  val_split: 0.1
+  test_split: 0.2
+
+# Model settings
+model:
+  type: "ViT50_3block"
+  img_size: 500
+  patch_size: 50
+  embed_dim: 128
+  depth: 4  # Slightly deeper for bulk ice
+  num_heads: 8
+  mlp_dim: 512
+  num_classes: 1
+
+# Training settings
+training:
+  num_epochs: 150
+  patience: 10
+  
+  # Optimizer
+  optimizer:
+    type: "AdamW"
+    lr: 0.0001
+    weight_decay: 0.01
+  
+  # Scheduler
+  scheduler:
+    type: "ReduceLROnPlateau"
+    mode: "min"
+    factor: 0.5
+    patience: 3
+    verbose: true
+  
+  # Loss function
+  criterion: "MSELoss"
+
+# Checkpoint settings
+checkpoint:
+  save_dir: "./checkpoints/bulk_ice"
+  save_best: true
+  resume_from: null
+
+# Logging settings
+logging:
+  log_dir: "./logs/bulk_ice"
+  tensorboard: false
+  print_freq: 1
+
+# Analysis settings
+analysis:
+  save_plots: true
+  plot_dir: "./plots/bulk_ice"
+  unit: "cm"
+
