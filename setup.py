@@ -37,8 +37,8 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "opticus-train=opticus.scripts.train:main",
-            "opticus-eval=opticus.scripts.evaluate:main",
+            "opticus-train=scripts.train:main",
+            "opticus-eval=scripts.evaluate:main",
         ],
     },
     classifiers=[
@@ -52,7 +52,7 @@ setup(
     ],
     include_package_data=True,
     package_data={
-        "opticus": ["configs/*.yaml"],
+        "": ["configs/*.yaml"],
     },
 )
 

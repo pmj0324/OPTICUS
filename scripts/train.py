@@ -11,10 +11,10 @@ import torch
 import torch.nn as nn
 from pathlib import Path
 
-from opticus.models import ViT50_3block, ResNet4
-from opticus.dataloader import load_h5_data, create_dataloaders
-from opticus.utils import train_model
-from opticus.configs import load_config
+from models import ViT50_3block, ResNet4
+from training import load_h5_data, create_dataloaders
+from utils import train_model
+from configs import load_config
 
 
 def set_seed(seed):

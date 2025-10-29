@@ -7,11 +7,11 @@ This script demonstrates how to train a Vision Transformer model using OPTICUS.
 
 import torch
 import torch.nn as nn
-from opticus.models import ViT50_3block
-from opticus.dataloader import load_h5_data, create_dataloaders
-from opticus.utils import train_model, calculate_metrics
-from opticus.utils.metrics import print_metrics
-from opticus.analysis import save_all_plots
+from models import ViT50_3block
+from training import load_h5_data, create_dataloaders
+from utils import train_model, calculate_metrics
+from utils.metrics import print_metrics
+from plots import save_all_plots
 
 def main():
     # Configuration

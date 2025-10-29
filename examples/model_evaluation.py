@@ -6,11 +6,11 @@ This script demonstrates how to evaluate a trained OPTICUS model.
 """
 
 import torch
-from opticus.models import ViT50_3block, ResNet4
-from opticus.dataloader import load_h5_data, create_dataloaders
-from opticus.utils import calculate_metrics
-from opticus.utils.metrics import print_metrics
-from opticus.analysis import save_all_plots
+from models import ViT50_3block, ResNet4
+from training import load_h5_data, create_dataloaders
+from utils import calculate_metrics
+from utils.metrics import print_metrics
+from plots import save_all_plots
 
 def main():
     # Configuration
