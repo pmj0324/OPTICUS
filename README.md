@@ -1,5 +1,5 @@
 # OPTICUS
-
+https://arxiv.org/abs/2507.18525
 **Optical Property Transformer for IceCube Upgrade Camera System**
 
 OPTICUS는 IceCube 업그레이드 카메라 시스템을 위한 광학 특성 예측 프레임워크입니다. Vision Transformer (ViT)와 CNN 기반 모델을 사용하여 얼음의 산란 길이(scattering length)를 예측합니다.
