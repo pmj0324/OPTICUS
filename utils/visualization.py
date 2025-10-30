@@ -1,4 +1,6 @@
-"""Visualization utilities for OPTICUS."""
+"""Visualization utilities for OPTICUS.
+OPTICUS용 시각화 유틸리티.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 

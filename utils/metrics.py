@@ -1,4 +1,6 @@
-"""Evaluation metrics for OPTICUS."""
+"""Evaluation metrics for OPTICUS.
+OPTICUS용 평가 메트릭.
+"""
 import numpy as np
 import torch
 

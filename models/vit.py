@@ -1,19 +1,29 @@
-"""Vision Transformer model for OPTICUS."""
+"""Vision Transformer model for OPTICUS.
+OPTICUS용 Vision Transformer 모델.
+"""
 import torch
 import torch.nn as nn
 
 
 class ViT50_3block(nn.Module):
     """Vision Transformer with patch size 50 and 3 transformer blocks.
+    패치 크기 50, 3개의 transformer 블록을 가진 Vision Transformer.
     
-    Args:
+    Args / 인자:
         img_size: Input image resolution (default: 500x500)
+                 입력 이미지 해상도 (기본값: 500x500)
         patch_size: Size of each patch (default: 50x50)
+                   각 패치의 크기 (기본값: 50x50)
         embed_dim: Patch embedding dimension (default: 256)
+                  패치 임베딩 차원 (기본값: 256)
         depth: Number of Transformer Encoder layers (default: 3)
+              Transformer Encoder 레이어 수 (기본값: 3)
         num_heads: Number of multi-head attention heads (default: 8)
+                  멀티헤드 어텐션 헤드 수 (기본값: 8)
         mlp_dim: Hidden dimension in Transformer MLP (default: 512)
+                Transformer MLP의 숨겨진 차원 (기본값: 512)
         num_classes: Number of output nodes (default: 1 for regression)
+                    출력 노드 수 (회귀용 기본값: 1)
     """
     
     def __init__(self,
@@ -65,14 +75,16 @@ class ViT50_3block(nn.Module):
             nn.init.zeros_(self.head.bias)
 
     def forward(self, x):
-        """
-        Forward pass.
+        """Forward pass.
+        순전파.
         
-        Args:
+        Args / 인자:
             x: Input tensor of shape (B, 1, 500, 500)
+               입력 텐서, 형태 (B, 1, 500, 500)
             
-        Returns:
+        Returns / 반환:
             Output tensor of shape (B,) for regression
+            회귀용 출력 텐서, 형태 (B,)
         """
         B = x.size(0)
 

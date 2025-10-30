@@ -1,4 +1,6 @@
-"""Training utilities for OPTICUS."""
+"""Training utilities for OPTICUS.
+OPTICUS용 학습 유틸리티.
+"""
 import torch
 import torch.nn as nn
 from torch.optim import AdamW
@@ -7,13 +9,19 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingLR
 
 class Trainer:
     """Trainer class for model training and validation.
+    모델 학습 및 검증을 위한 Trainer 클래스.
     
-    Args:
+    Args / 인자:
         model: PyTorch model to train
+              학습할 PyTorch 모델
         train_loader: Training data loader
+                     학습 데이터 로더
         val_loader: Validation data loader
+                   검증 데이터 로더
         config: Configuration dictionary
+               설정 딕셔너리
         device: Device to train on (cuda/cpu)
+               학습에 사용할 디바이스 (cuda/cpu)
     """
     
     def __init__(self, model, train_loader, val_loader, config, device):
@@ -72,7 +80,9 @@ class Trainer:
         }
     
     def train_epoch(self):
-        """Train for one epoch."""
+        """Train for one epoch.
+        한 에폭 동안 학습.
+        """
         self.model.train()
         running_train_loss = 0.0
         
@@ -92,7 +102,9 @@ class Trainer:
         return train_loss
     
     def validate_epoch(self):
-        """Validate for one epoch."""
+        """Validate for one epoch.
+        한 에폭 동안 검증.
+        """
         self.model.eval()
         running_val_loss = 0.0
         
@@ -108,7 +120,9 @@ class Trainer:
         return val_loss
     
     def train(self):
-        """Train the model for multiple epochs with early stopping."""
+        """Train the model for multiple epochs with early stopping.
+        Early stopping을 사용하여 여러 에폭 동안 모델 학습.
+        """
         print(f"Starting training for {self.num_epochs} epochs...")
         print(f"Training samples: {len(self.train_loader.dataset)}")
         print(f"Validation samples: {len(self.val_loader.dataset)}")

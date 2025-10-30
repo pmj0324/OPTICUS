@@ -1,4 +1,6 @@
-"""Main training script for OPTICUS."""
+"""Main training script for OPTICUS.
+OPTICUS 메인 학습 스크립트.
+"""
 import os
 import argparse
 import yaml
@@ -12,12 +14,15 @@ from utils import set_seed, evaluate_model, print_evaluation_summary, plot_resul
 
 def load_config(config_path):
     """Load configuration from YAML file.
+    YAML 파일에서 설정 불러오기.
     
-    Args:
+    Args / 인자:
         config_path: Path to YAML configuration file
+                    YAML 설정 파일 경로
         
-    Returns:
+    Returns / 반환:
         Configuration dictionary
+        설정 딕셔너리
     """
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
@@ -26,13 +31,17 @@ def load_config(config_path):
 
 def create_model(config, device):
     """Create model based on configuration.
+    설정에 따라 모델 생성.
     
-    Args:
+    Args / 인자:
         config: Configuration dictionary
+               설정 딕셔너리
         device: Device to create model on
+               모델을 생성할 디바이스
         
-    Returns:
+    Returns / 반환:
         Model instance
+        모델 인스턴스
     """
     model_config = config['model']
     
@@ -53,7 +62,9 @@ def create_model(config, device):
 
 
 def main(args):
-    """Main training function."""
+    """Main training function.
+    메인 학습 함수.
+    """
     # Load configuration
     config = load_config(args.config)
     

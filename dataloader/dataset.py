@@ -1,4 +1,6 @@
-"""Dataset and DataLoader utilities for OPTICUS."""
+"""Dataset and DataLoader utilities for OPTICUS.
+OPTICUS용 데이터셋 및 데이터로더 유틸리티.
+"""
 import numpy as np
 import h5py
 import torch
@@ -8,12 +10,17 @@ import torchvision.transforms as T
 
 class NoisyImageDataset(Dataset):
     """Dataset for noisy 500×500 images with labels.
+    레이블이 있는 노이즈 포함 500×500 이미지 데이터셋.
     
-    Args:
+    Args / 인자:
         images: (N, 500, 500) numpy array, raw pixel values (0~4095)
+               (N, 500, 500) numpy 배열, 원시 픽셀 값 (0~4095)
         labels: (N,) numpy array, raw labels
+               (N,) numpy 배열, 원시 레이블
         lbl_min: Label minimum for normalization
+                정규화를 위한 레이블 최소값
         lbl_max: Label maximum for normalization
+                정규화를 위한 레이블 최대값
     """
     
     def __init__(self, images, labels, lbl_min, lbl_max):
