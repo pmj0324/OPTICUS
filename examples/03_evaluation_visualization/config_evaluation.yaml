@@ -1,0 +1,47 @@
+# OPTICUS - Evaluation and Visualization Configuration
+# 학습된 모델을 불러와서 평가 및 시각화하는 설정
+
+# Random seed
+seed: 14000
+
+# Data paths
+data:
+  train_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/train_dataset.h5'
+  val_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/val_dataset.h5'
+  test_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/test_dataset.h5'
+
+# DataLoader settings
+dataloader:
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+
+# Model architecture (must match the checkpoint)
+model:
+  name: 'ViT50_3block'
+  img_size: 500
+  patch_size: 50
+  embed_dim: 256  # Must match checkpoint
+  depth: 3
+  num_heads: 8
+  mlp_dim: 1024   # Must match checkpoint
+  num_classes: 1
+
+# Checkpoint to evaluate
+checkpoint:
+  load_path: '/home/work/CamSim/OPTICUS/reference_model_hole/new_dataset_hr_0627_rerun_resumed_final.pth'
+  # Or use absolute path:
+  # load_path: '/home/work/CamSim/OPTICUS/best_vit50_3block.pth'
+
+# Evaluation and visualization
+evaluation:
+  # Which dataset to evaluate on
+  dataset: 'test'  # Options: 'train', 'val', 'test'
+  
+  # Save paths
+  save_results_plot: './results/evaluation_results.png'
+  save_predictions_csv: './results/predictions.csv'
+
+# Device
+device: 'cuda'
+

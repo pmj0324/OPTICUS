@@ -1,0 +1,63 @@
+# OPTICUS Configuration File
+# Optical Property Transformer for IceCube Upgrade Camera System
+
+# Random seed for reproducibility
+seed: 14000
+
+# Data paths
+data:
+  train_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/train_dataset.h5'
+  val_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/val_dataset.h5'
+  test_path: '/home/work/CamSim/Hole_Output/s2_best_initialtraining/test_dataset.h5'
+
+# DataLoader settings
+dataloader:
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+
+# Model architecture
+model:
+  name: 'ViT50_3block'
+  img_size: 500
+  patch_size: 50
+  embed_dim: 256
+  depth: 3
+  num_heads: 8
+  mlp_dim: 1024
+  num_classes: 1
+
+# Optimizer settings
+optimizer:
+  type: 'AdamW'
+  lr: 1.0e-4
+  weight_decay: 0.01
+
+# Scheduler settings
+scheduler:
+  type: 'ReduceLROnPlateau'  # Options: 'ReduceLROnPlateau', 'CosineAnnealingLR'
+  # ReduceLROnPlateau params
+  mode: 'min'
+  factor: 0.7
+  patience: 2
+  threshold: 0.0
+  threshold_mode: 'abs'
+  verbose: true
+  # CosineAnnealingLR params (if using)
+  # T_max: 100
+  # eta_min: 1.0e-7
+
+# Training settings
+training:
+  num_epochs: 300
+  patience: 11  # Early stopping patience
+  save_path: './checkpoints/best_vit50_3block.pth'
+
+# Evaluation and visualization
+evaluation:
+  save_results_plot: './results/evaluation_results.png'
+  save_history_plot: './results/training_history.png'
+
+# Device
+device: 'cuda'  # Options: 'cuda', 'cpu', 'cuda:0', 'cuda:1', etc.
+

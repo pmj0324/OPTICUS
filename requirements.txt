@@ -1,0 +1,22 @@
+# OPTICUS Requirements
+# Optical Property Transformer for IceCube Upgrade Camera System
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data Processing
+numpy>=1.24.0
+h5py>=3.8.0
+
+# Configuration
+PyYAML>=6.0
+
+# Visualization and Data
+matplotlib>=3.7.0
+pandas>=2.0.0
+
+# Optional: For better performance
+# nvidia-cudnn-cu11>=8.9.0  # If using CUDA 11.x
+# nvidia-cudnn-cu12>=8.9.0  # If using CUDA 12.x
+
