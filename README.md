@@ -1,4 +1,5 @@
 # OPTICUS
+[![OT-CFM Preprint](http://img.shields.io/badge/paper-arxiv.2302.00482-B31B1B.svg)](https://arxiv.org/abs/2302.00482)
 **Optical Property Transformer for IceCube Upgrade Camera System**
 
 ## 📖 Overview / 개요
